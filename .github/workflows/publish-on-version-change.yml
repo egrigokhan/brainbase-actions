@@ -4,6 +4,9 @@ on:
     paths:
       - 'packages/pieces/**/package.json'
 
+env:
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,8 +27,6 @@ jobs:
       run: echo "@activepieces:registry=https://registry.npmjs.org/" >> ~/.npmrc
            echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
            echo "legacy-peer-deps=true" >> ~/.npmrc
-      env:
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     # Install dependencies
     - name: Install dependencies
