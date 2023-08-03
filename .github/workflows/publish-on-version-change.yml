@@ -1,0 +1,22 @@
+name: Publish on Version Change
+on:
+  push:
+    paths:
+      - 'packages/pieces/**/package.json'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Fetch entire history to enable comparison
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Check Version Changes and Publish
+        run: ./scripts/check-version-and-publish.sh
