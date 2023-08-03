@@ -9,9 +9,13 @@ do
   # Extract the piece name
   piece=$(echo $file | sed -n 's|packages/pieces/\(.*\)/package.json|\1|p')
 
+  echo "Checking file: $file"
+  echo "Piece: $piece"
+
   # Check if the version number has changed
   if git diff ${{ github.event.before }} ${{ github.sha }} -- $file | grep '"version":'
   then
+    echo "Running..."
     # Run the publishing command for the piece
     npm run publish-piece $piece
   fi
