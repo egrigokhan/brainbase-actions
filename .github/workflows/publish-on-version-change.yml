@@ -23,5 +23,5 @@ jobs:
 
       - name: Check Version Changes and Publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: ./scripts/check-version-and-publish.sh
