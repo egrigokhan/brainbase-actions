@@ -31,6 +31,9 @@ jobs:
     # Install dependencies
     - name: Install dependencies
       run: npm install
+      
+    - name: Set execute permissions on script
+      run: chmod +x ./scripts/check-version-and-publish.sh
 
     # Your custom script
     - name: Run custom script
