@@ -17,6 +17,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
+          
+      # Install dependencies (including TypeScript)
+      - name: Install dependencies
+        run: |
+          npm install
 
       - name: Set execute permissions on script
         run: chmod +x ./scripts/check-version-and-publish.sh
