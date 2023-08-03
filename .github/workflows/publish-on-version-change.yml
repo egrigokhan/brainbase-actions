@@ -5,28 +5,32 @@ on:
       - 'packages/pieces/**/package.json'
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # Fetch entire history to enable comparison
+    # Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Use Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          
-      # Install dependencies (including TypeScript)
-      - name: Install dependencies
-        run: |
-          npm install
+    # Setup Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
 
-      - name: Set execute permissions on script
-        run: chmod +x ./scripts/check-version-and-publish.sh
+    # Copy the .npmrc file to the home directory
+    - name: Configure npm
+      run: echo "@activepieces:registry=https://registry.npmjs.org/" >> ~/.npmrc
+           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
+           echo "legacy-peer-deps=true" >> ~/.npmrc
+      env:
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Check Version Changes and Publish
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: ./scripts/check-version-and-publish.sh
+    # Install dependencies
+    - name: Install dependencies
+      run: npm install
+
+    # Your custom script
+    - name: Run custom script
+      run: ./scripts/check-version-and-publish.sh
