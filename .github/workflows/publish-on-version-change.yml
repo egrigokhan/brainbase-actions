@@ -18,8 +18,12 @@ jobs:
         with:
           node-version: '14'
 
+      - name: Set execute permissions on script
+        run: chmod +x ./scripts/check-version-and-publish.sh
+
       - name: Check Version Changes and Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: ./scripts/check-version-and-publish.sh
+
 
